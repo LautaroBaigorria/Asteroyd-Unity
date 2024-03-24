@@ -1,25 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-//public class RandomSpawner : MonoBehaviour
-//{
-//    public GameObject asteroidPrefab;
-//    public int MaxAsteroidNumber = 4;
-//    public int iterator = 0;
-//    // Update is called once per frame
-//    void Update()
-//    {
-        
-//        while ( iterator <= MaxAsteroidNumber)
-//        { 
-//            Vector2 randomSpawnPosition = new Vector2 (Random.value, Random.value);
-//            Instantiate(asteroidPrefab,randomSpawnPosition,Quaternion.identity);
-//            iterator += 1;
-//        }
-//    }
-//}
-
+//clase que genera 4 asteroides en cada extremo de la pantalla
 
 public class RandomSpawner : MonoBehaviour
 {
@@ -42,26 +26,34 @@ public class RandomSpawner : MonoBehaviour
     void Update()
     {
 
+        //float[,] positionsArray = new float[4, 4] { { 0f, 0.1f, 0f, 1f }, { 0f, 1f, 0f, 0.1f }, { 0.9f, 1f, 0f, 1f }, { 0f, 1f, 0f, 0.1f } };
+
+        float[][] positionsArray;
+        positionsArray = new float[4][];
+        positionsArray[0] = new float[] { 0f, 0.1f, 0f, 1f }; //izquierda
+        positionsArray[1] = new float[] { 0f, 1f, 0f, 0.1f }; //abajo
+        positionsArray[2] = new float[] { 0.9f, 1f, 0f, 1f }; //derecha
+        positionsArray[3] = new float[] { 0f, 1f, 0.9f, 1f }; //arriba
+
         while (iterator < MaxAsteroidNumber)
         {
-            SpawnRandomObject();
+            SpawnRandomObject(positionsArray[iterator]);
             iterator++;
         }
     }
 
-    void SpawnRandomObject()
+    void SpawnRandomObject(float[] position)
     {
-        Vector3 randomPosition = GetRandomViewportPosition();
+        Vector3 randomPosition = GetRandomViewportPosition(position[0], position[1], position[2], position[3]);
         Vector3 spawnPosition = mainCamera.ViewportToWorldPoint(randomPosition);
 
         Instantiate(asteroidPrefab, spawnPosition, Quaternion.identity);
     }
 
-    Vector3 GetRandomViewportPosition()
+    Vector3 GetRandomViewportPosition(float minX, float maxX, float minY, float maxY)
     {
-        float randomX = Random.Range(0f, 1f);
-        float randomY = Random.Range(0f, 1f);
-
+        float randomX = Random.Range(minX, maxX);
+        float randomY = Random.Range(minY, maxY);
         return new Vector3(randomX, randomY, mainCamera.nearClipPlane + spawnRadius);
     }
 }

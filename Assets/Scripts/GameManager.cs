@@ -6,7 +6,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
-    
+    public HUD hud1;
     public int TotalPoints { get { return totalPoints; }  }
     private int totalPoints;
     
@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     {
         totalPoints += PointsToAdd;
         Debug.Log(totalPoints);
+        //hud1.UpdatePoints(totalPoints);
     }
 
     private void Awake()

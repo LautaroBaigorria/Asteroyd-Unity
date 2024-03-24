@@ -1,22 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpawnTwoAsteroids : MonoBehaviour
 {
     public GameObject asteroidPrefab;
+    SpawnSingleAsteroidScript asteroidScript;
+    private void Start() => asteroidScript = GameObject.FindGameObjectWithTag("SingleAsteroid").GetComponent<SpawnSingleAsteroidScript>();
+
+
     public void SpawnAsteroids()
         {
         Debug.Log("Method Called");
 
         Vector3 spawnPosition = transform.position;
-        Vector3 offset = new Vector3(0.5f, 0.5f, 0f); // Offset to spawn two new asteroids around the destroyed one
 
-        // Instantiate two new asteroids with an offset from the destroyed one
-        Instantiate(asteroidPrefab, spawnPosition + offset, Quaternion.identity);
-        Instantiate(asteroidPrefab, spawnPosition - offset, Quaternion.identity);
+        for (int i = 0; i < 2; i++)
+        {
+            asteroidScript.SpawnSingleAsteroid(spawnPosition, asteroidPrefab);
+            
+        }
 
     }
 
-   
+
+
 }

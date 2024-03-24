@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Windows;
 using Input = UnityEngine.Input;
@@ -12,19 +13,29 @@ public class ShipOne : MonoBehaviour
 
     public ScreenBounds screenBounds;
 
+
     [Header("Animation")]
     private Animator animator;
+
+    private Vector3 initialPos;
+    private Quaternion initialRotation;
+
+    private ShipCollider shipCollider;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        shipCollider = GetComponent<ShipCollider>();
+        initialPos = transform.position;
+        initialRotation = transform.rotation;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-              
+        // todo esto podria separarse en funciones      
         // Rotate the ship based on input
         float rotationInput = Input.GetAxis("Horizontal");
         transform.Rotate(Vector3.back * rotationInput * rotationSpeed * Time.deltaTime);
@@ -61,7 +72,7 @@ public class ShipOne : MonoBehaviour
         {
             transform.position = tempPosition;
         }
-
+        //Debug.Log(transform.position);
 
     }
 
@@ -82,4 +93,19 @@ public class ShipOne : MonoBehaviour
         transform.position = randomWorldPoint;
 
     }
+
+    //public void ResetPositionAfterHit()
+    //{
+        
+    //    this.gameObject.SetActive(false);
+    //    transform.SetPositionAndRotation(initialPos, initialRotation);
+        
+    //    this.GetComponent<SpriteRenderer>().material.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+    //    shipCollider.enabled = false;
+
+    //    this.gameObject.SetActive(true);
+    //}
+       
+    
+
 }
