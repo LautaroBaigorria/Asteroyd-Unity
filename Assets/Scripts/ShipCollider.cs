@@ -1,21 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ShipCollider : MonoBehaviour
     
 
 {
     ShipOne shipOne;
+    Lives livesScript;
     private Vector3 initialPos;
     private Quaternion initialRotation;
+    //GameManager gameManager;
+
 
     private void Start()
     {
         shipOne = GetComponent<ShipOne>();
         initialPos = shipOne.transform.position;
         initialRotation = shipOne.transform.rotation;
-
+        //gameManager = GetComponent<GameManager>();
+        livesScript = GameObject.FindGameObjectWithTag("livesScript").GetComponent<Lives>();
+        
     }
 
     private void OnTriggerEnter2D(Collider2D asteroid)
@@ -34,8 +40,12 @@ public class ShipCollider : MonoBehaviour
             }
             //this.gameObject.SetActive(false);
             // resetear la posicion de la nave y setactive
+            
+            livesScript.LoseLife();
+
             ResetPositionAfterHit();
             //this.gameObject.SetActive(true);
+
         }
         
 
@@ -60,4 +70,7 @@ public class ShipCollider : MonoBehaviour
         shipOne.GetComponent<SpriteRenderer>().material.color = new Color(1f, 1f, 1f, 1f);
         shipOne.GetComponent<BoxCollider2D>().enabled = true;
     }
+
+    
+    
 }
